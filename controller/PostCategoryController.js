@@ -22,6 +22,13 @@ const getPostById = async (req, res) => {
       { model: Categorie, as: 'categories' },
     ],
   });
+  const foundPosts = await BlogPost.findAll();
+  const foundPostsIds = foundPosts.map((posts) => posts.dataValues.id);
+  
+  if (!foundPostsIds.includes(Number(id))) {
+    return res.status(404).json({ message: 'Post does not exist' });
+  }
+
   return res.status(200).json(foundPostsById);
 };
 
